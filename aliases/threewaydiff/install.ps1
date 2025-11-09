@@ -77,7 +77,7 @@ try {
 
 # Generate the git alias command with dynamic path
 $gitAliasPath = $destinationScript -replace '\\', '/'  # Convert to forward slashes for git
-$aliasValue = "!powershell -NoProfile -File `"$gitAliasPath`""
+$aliasValue = "!powershell -NoProfile -ExecutionPolicy Bypass -File `"$gitAliasPath`""
 
 # Register the git alias
 Write-Host "Registering git alias..." -ForegroundColor Yellow

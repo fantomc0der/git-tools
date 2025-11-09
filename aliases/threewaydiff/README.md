@@ -122,7 +122,7 @@ No changed files between branch1 and branch2
 ### PowerShell Execution Policy Issues
 **Error**: `execution of scripts is disabled on this system`
 
-**Solution**: Allow script execution for the current user:
+**Solution**: The install script automatically handles this by including `-ExecutionPolicy Bypass` in the git alias. If you're still having issues, you can manually allow script execution for the current user:
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```

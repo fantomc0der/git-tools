@@ -49,8 +49,7 @@ foreach ($file in $ChangedFiles) {
 
 # Launch Meld with proper flags
 $meldExe = "meld" # Only supports meld for now
-$meldProcess = Start-Process $meldExe -ArgumentList @("$LocalDir", "$BaseDir", "$RemoteDir") -PassThru -NoNewWindow
+Start-Process $meldExe -ArgumentList @("$LocalDir", "$BaseDir", "$RemoteDir") -NoNewWindow -Wait
 
-# Wait for Meld to close and cleanup temp files
-$meldProcess.WaitForExit()
+# Cleanup temp files after Meld closes
 Remove-Item -Recurse -Force $TempRoot
