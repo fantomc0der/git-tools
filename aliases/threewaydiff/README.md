@@ -66,25 +66,60 @@ The installer will:
 Once installed, use the alias from any git repository:
 
 ```bash
-git threewaydiff <branch1> <branch2>
+git threewaydiff <branch1> <branch2>                # Complete branch state comparison (default)
+git threewaydiff <branch1> <branch2> --changed-files # Changed files only
 ```
 
-### Specific Usage Example 
+## Comparison Modes
 
-You want to run the same LLM prompt against a repository using two different tools and compare the results from each to determine which LLM best completed the task. Comparing the resulting branches directly to each other with native git commands for `diff` or `difftool` isn't as useful, but seeing the comparison include the common ancestor helps with the evaluation.  
+### **Full State Mode (Default)**
+Shows complete directory structures of both branches and their merge-base using git worktrees.
 
-**Example command to perform the diff:**  
+**Usage:** `git threewaydiff main feature`
+
+**Benefits:**
+- Complete project context - see entire directory structures
+- Ideal for comparing different approaches to the same problem (e.g., LLM testing)
+- Shows files added/deleted in branches
+- Efficient implementation using git worktrees (shares git database)
+
+### **Changed Files Mode**
+Shows only files that differ between the two branches, extracted to temporary directories.
+
+**Usage:** `git threewaydiff main feature --changed-files`
+
+**Benefits:**
+- Faster for repositories with many files but few changes
+- Focuses attention only on actual changes
+- Minimal disk space usage
+
+**Perfect for:**
+- Testing the same prompt against different LLMs and comparing results
+- Large refactoring analysis where unchanged files provide important context
+- Understanding complete project state differences
+
+### LLM Testing Example
+
+You want to run the same LLM prompt against a repository using two different tools and compare the results from each to determine which LLM best completed the task.
+
+**For complete project state comparison (default):**
 ```bash
 git threewaydiff ai-roo-test ai-copilot-test
 ```
 
-**What you will see in Meld for that diff operation:**  
-When the alias runs, Meld will open with three panels:
+**For changed files only:**
+```bash
+git threewaydiff ai-roo-test ai-copilot-test --changed-files
+```
+
+**What you will see in Meld:**
+When using either mode, Meld opens with three panels:
 - **Left**: `ai-roo-test` branch files
-- **Center**: Common base (merge-base) files  
+- **Center**: Common base (merge-base) files
 - **Right**: `ai-copilot-test` branch files
 
-Only files that have changes between the branches will be shown, making it easy to focus on what actually differs.
+**Full state mode (default)** shows complete directory structures, giving you full project context.
+**Changed files mode** shows only files that differ between branches.
 
 
 ## How It Works
@@ -135,6 +170,23 @@ git config --get alias.threewaydiff
 
 ### Temp Directory Issues
 If you encounter issues with temporary files:
-- The script uses `$env:TEMP\git-alias-threewaydiff`
+- **Full state mode (default)**: Uses `$env:TEMP\git-worktree-threewaydiff`
+- **Changed files mode**: Uses `$env:TEMP\git-alias-threewaydiff`
 - Files are automatically cleaned up when Meld closes
-- You can manually delete this folder if needed
+- You can manually delete these folders if needed
+
+### Git Worktree Issues (Default Mode)
+**Error**: `fatal: worktree already exists`
+```
+git worktree remove --force "path/to/worktree"
+```
+
+**Error**: `Worktree creation failed`
+- Ensure you have sufficient disk space for complete repository checkout
+- Check that the specified branches/commits exist
+- Run `git worktree list` to see existing worktrees
+
+**Performance considerations:**
+- Default mode requires disk space for complete project checkout (3x repository size)
+- For very large repositories, consider using `--changed-files` mode for faster operation
+- Worktrees share the git object database but create separate working directories
