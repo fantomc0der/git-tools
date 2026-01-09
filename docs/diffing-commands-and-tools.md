@@ -1,4 +1,4 @@
-# Git Diffing Commands and Tooling
+# Git Diffing Commands and Tools
 
 This document provides a comprehensive guide to performing effective diffing in Git, including scenarios for comparing branches, configuring pagers and difftools, using advanced tools like **delta**, and managing Git configuration files.
 
