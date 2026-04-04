@@ -66,6 +66,7 @@ Certain tools are natively supported by git and only setting `diff.tool` is suff
 **Meld**
 ```powershell
 git config --global diff.tool meld
+git config --global difftool.meld.cmd 'meld "$LOCAL" "$REMOTE"'
 ```
 
 **WinMerge** 

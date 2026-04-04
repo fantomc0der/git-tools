@@ -56,7 +56,7 @@ Get-Command meld
 
 The installer will:
 - ✅ Check if Meld is installed and accessible
-- ✅ Copy `threewaydiff.ps1` to your user profile as `git-threewaydiff-alias.ps1`
+- ✅ Copy `twdiff.ps1` to your user profile as `git-alias-twdiff.ps1`
 - ✅ Prompt for confirmation if the file already exists
 - ✅ Register the git alias globally using `git config`
 
@@ -66,8 +66,8 @@ The installer will:
 Once installed, use the alias from any git repository:
 
 ```bash
-git threewaydiff <branch1> <branch2>                # Complete branch state comparison (default)
-git threewaydiff <branch1> <branch2> --changed-files # Changed files only
+git twdiff <branch1> <branch2>                # Complete branch state comparison (default)
+git twdiff <branch1> <branch2> --changed-files # Changed files only
 ```
 
 ## Comparison Modes
@@ -75,7 +75,7 @@ git threewaydiff <branch1> <branch2> --changed-files # Changed files only
 ### **Full State Mode (Default)**
 Shows complete directory structures of both branches and their merge-base using git worktrees.
 
-**Usage:** `git threewaydiff main feature`
+**Usage:** `git twdiff main feature`
 
 **Benefits:**
 - Complete project context - see entire directory structures
@@ -86,7 +86,7 @@ Shows complete directory structures of both branches and their merge-base using 
 ### **Changed Files Mode**
 Shows only files that differ between the two branches, extracted to temporary directories.
 
-**Usage:** `git threewaydiff main feature --changed-files`
+**Usage:** `git twdiff main feature --changed-files`
 
 **Benefits:**
 - Faster for repositories with many files but few changes
@@ -104,12 +104,12 @@ You want to run the same LLM prompt against a repository using two different too
 
 **For complete project state comparison (default):**
 ```bash
-git threewaydiff ai-roo-test ai-copilot-test
+git twdiff ai-roo-test ai-copilot-test
 ```
 
 **For changed files only:**
 ```bash
-git threewaydiff ai-roo-test ai-copilot-test --changed-files
+git twdiff ai-roo-test ai-copilot-test --changed-files
 ```
 
 **What you will see in Meld:**
@@ -165,13 +165,13 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ### Git Alias Not Working
 **Check if alias is registered:**
 ```bash
-git config --get alias.threewaydiff
+git config --get alias.twdiff
 ```
 
 ### Temp Directory Issues
 If you encounter issues with temporary files:
-- **Full state mode (default)**: Uses `$env:TEMP\git-worktree-threewaydiff`
-- **Changed files mode**: Uses `$env:TEMP\git-alias-threewaydiff`
+- **Full state mode (default)**: Uses `$env:TEMP\git-worktree-twdiff`
+- **Changed files mode**: Uses `$env:TEMP\git-alias-twdiff`
 - Files are automatically cleaned up when Meld closes
 - You can manually delete these folders if needed
 

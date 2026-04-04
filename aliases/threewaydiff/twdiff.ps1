@@ -11,7 +11,7 @@ $ChangedFilesOnly = $args -contains "--changed-files"
 
 # Validate arguments
 if (-not $BranchLeft -or -not $BranchRight) {
-    Write-Host "Usage: git threewaydiff <branch1> <branch2> [--changed-files]"
+    Write-Host "Usage: git twdiff <branch1> <branch2> [--changed-files]"
     Write-Host ""
     Write-Host "  Default: Shows complete branch state using git worktrees"
     Write-Host "  --changed-files: Shows only changed files between branches"
@@ -30,7 +30,7 @@ if (-not $ChangedFilesOnly) {
     Write-Host "Using full branch state comparison with git worktrees..."
     
     # Prepare worktree directories
-    $WorktreeRoot = Join-Path $env:TEMP "git-worktree-threewaydiff"
+    $WorktreeRoot = Join-Path $env:TEMP "git-worktree-twdiff"
     $BaseWorktree = Join-Path $WorktreeRoot "base"
     $LeftWorktree = Join-Path $WorktreeRoot "left"
     $RightWorktree = Join-Path $WorktreeRoot "right"
@@ -119,7 +119,7 @@ if (-not $ChangedFilesOnly) {
     }
 
     # Prepare temp directories
-    $TempRoot = Join-Path $env:TEMP "git-alias-threewaydiff"
+    $TempRoot = Join-Path $env:TEMP "git-alias-twdiff"
     $BaseDir = Join-Path $TempRoot "base"
     $LocalDir = Join-Path $TempRoot "local"
     $RemoteDir = Join-Path $TempRoot "remote"
@@ -136,9 +136,9 @@ if (-not $ChangedFilesOnly) {
 
             New-Item -ItemType Directory -Force -Path (Split-Path $basePath), (Split-Path $localPath), (Split-Path $remotePath) | Out-Null
 
-            try { git show "${BASE}:$file" | Out-File -Encoding utf8 $basePath } catch {}
-            try { git show "${BranchLeft}:$file" | Out-File -Encoding utf8 $localPath } catch {}
-            try { git show "${BranchRight}:$file" | Out-File -Encoding utf8 $remotePath } catch {}
+            try { git show "${BASE}:$file" 2>$null | Out-File -Encoding utf8 $basePath } catch {}
+            try { git show "${BranchLeft}:$file" 2>$null | Out-File -Encoding utf8 $localPath } catch {}
+            try { git show "${BranchRight}:$file" 2>$null | Out-File -Encoding utf8 $remotePath } catch {}
         }
 
         # Launch Meld with proper flags
