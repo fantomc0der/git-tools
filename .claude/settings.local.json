@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash aliases/threewaydiff/twdiff.sh)",
+      "Bash(bash aliases/threewaydiff/install.sh)"
+    ]
+  }
+}
