@@ -11,7 +11,12 @@ git config --global push.default upstream
 
 Safely force push branch:  
 ```
-git config --global alias.pushfwl "push --force-with-lease"
+git config --global alias.pushf "push --force-with-lease"
+```
+
+Rebase latest from origin/main to current branch:
+```
+git config --global alias.remain '!git fetch --prune && git rebase origin/main'
 ```
 
 Delete all local branches whose upstreams are gone (e.g. merged branch):  
