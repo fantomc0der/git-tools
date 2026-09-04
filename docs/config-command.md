@@ -16,7 +16,7 @@ git config --global alias.pushf "push --force-with-lease"
 
 Rebase latest from origin/main to current branch:
 ```
-git config --global alias.remain '!git fetch --prune && git rebase origin/main'
+git config --global alias.remain '!git branch --show-current | grep -qx main || { echo \"remain: not on main\" >&2; exit 1; }; git fetch --prune && git rebase origin/main'
 ```
 
 Delete all local branches whose upstreams are gone (e.g. merged branch):  
